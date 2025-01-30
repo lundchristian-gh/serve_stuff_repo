@@ -8,22 +8,23 @@
 
 typedef struct file_generator file_generator;
 
-struct file_generator {
-    char* ressources_dir;
-    
+struct file_generator
+{
+    char *ressources_dir;
+
     int (*file_exist)(file_generator *self, const char *file_name);
     int (*get_file_size)(file_generator *self, const char *file_name);
 
-    char* (*get_file_path)(file_generator *self, const char *file_name);
-    char* (*get_file_content)(file_generator *self, const char *file_name);
+    char *(*get_file_path)(file_generator *self, const char *file_name);
+    char *(*get_file_content)(file_generator *self, const char *file_name);
 };
 
 /* Method: file_exist_impl
-* Argument(self): Pointer to the struct object to access members 
-* Argument(file_name): Name of file to find, ex. "index.html"
-* Brief: Searches for file in ressources directory, return 1 if file exist, else 0
-* Return: int used as bool
-*/
+ * Argument(self): Pointer to the struct object to access members
+ * Argument(file_name): Name of file to find, ex. "index.html"
+ * Brief: Searches for file in ressources directory, return 1 if file exist, else 0
+ * Return: int used as bool
+ */
 int file_exist_impl(file_generator *self, const char *file_name)
 {
     struct dirent *dir_ptr;
@@ -52,11 +53,11 @@ int file_exist_impl(file_generator *self, const char *file_name)
 }
 
 /* Method: get_file_size_impl
-* Argument(self): Pointer to the struct object to access members 
-* Argument(file_name): Name of file to use, ex. "index.html"
-* Brief: Returns the size of a file in the ressource directory
-* Return: int
-*/
+ * Argument(self): Pointer to the struct object to access members
+ * Argument(file_name): Name of file to use, ex. "index.html"
+ * Brief: Returns the size of a file in the ressource directory
+ * Return: int
+ */
 int get_file_size_impl(file_generator *self, const char *file_name)
 {
     int num_bytes_file = 0;
@@ -79,19 +80,19 @@ int get_file_size_impl(file_generator *self, const char *file_name)
 }
 
 /* Method: get_file_path_impl
-* Argument(self): Pointer to the struct object to access members 
-* Argument(file_name): Name of file to use, ex. "index.html"
-* Brief: Returns the full path of a file in the ressource directory
-* Return: char*
-* Note: User must free memory allocated
-*/
-char* get_file_path_impl(file_generator *self, const char *file_name)
+ * Argument(self): Pointer to the struct object to access members
+ * Argument(file_name): Name of file to use, ex. "index.html"
+ * Brief: Returns the full path of a file in the ressource directory
+ * Return: char*
+ * Note: User must free memory allocated
+ */
+char *get_file_path_impl(file_generator *self, const char *file_name)
 {
     size_t len_dir = strlen(self->ressources_dir);
     size_t len_file = strlen(file_name);
     size_t tot_size = len_dir + len_file + 2;
 
-    char* full_path = (char*)calloc(tot_size, sizeof(char*));
+    char *full_path = (char *)calloc(tot_size, sizeof(char *));
     if (full_path == NULL)
     {
         perror("calloc() failed");
@@ -104,13 +105,13 @@ char* get_file_path_impl(file_generator *self, const char *file_name)
 }
 
 /* Method: get_file_content_impl
-* Argument(self): Pointer to the struct object to access members 
-* Argument(file_name): Name of file to use, ex. "index.html"
-* Brief: Returns the content of a specified file
-* Return: char*
-* Note: User must free memory allocated
-*/
-char* get_file_content_impl(file_generator *self, const char *file_name)
+ * Argument(self): Pointer to the struct object to access members
+ * Argument(file_name): Name of file to use, ex. "index.html"
+ * Brief: Returns the content of a specified file
+ * Return: char*
+ * Note: User must free memory allocated
+ */
+char *get_file_content_impl(file_generator *self, const char *file_name)
 {
     int file_size = self->get_file_size(self, file_name);
     if (file_size == -1)
@@ -119,7 +120,7 @@ char* get_file_content_impl(file_generator *self, const char *file_name)
         return NULL;
     }
 
-    char* file_content = (char*)calloc(file_size + 1, sizeof(char*));
+    char *file_content = (char *)calloc(file_size + 1, sizeof(char *));
     if (file_content == NULL)
     {
         perror("calloc() failed");
@@ -149,15 +150,15 @@ char* get_file_content_impl(file_generator *self, const char *file_name)
 }
 
 /* Method: file_generator_ctor
-* Argument(self): Pointer to the struct object to access members 
-* Argument(ressources_dir): Name of directory to store files, ex. "templates"
-* Brief: Initializes the struct, mapping functions and setting members
-* Return: void
-*/
+ * Argument(self): Pointer to the struct object to access members
+ * Argument(ressources_dir): Name of directory to store files, ex. "templates"
+ * Brief: Initializes the struct, mapping functions and setting members
+ * Return: void
+ */
 void file_generator_ctor(file_generator *self, const char *ressources_dir)
 {
     size_t len_res_dir = strlen(ressources_dir);
-    self->ressources_dir = (char*)calloc(len_res_dir + 1, sizeof(char*));
+    self->ressources_dir = (char *)calloc(len_res_dir + 1, sizeof(char *));
     if (self->ressources_dir == NULL)
     {
         perror("calloc() failed");
@@ -172,10 +173,10 @@ void file_generator_ctor(file_generator *self, const char *ressources_dir)
 }
 
 /* Method: file_generator_dtor
-* Argument(self): Pointer to the struct object to access members 
-* Brief: Frees the allocated members, if not freed already
-* Return: void
-*/
+ * Argument(self): Pointer to the struct object to access members
+ * Brief: Frees the allocated members, if not freed already
+ * Return: void
+ */
 void file_generator_dtor(file_generator *self)
 {
     if (self != NULL)
