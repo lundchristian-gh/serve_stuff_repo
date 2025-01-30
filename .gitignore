@@ -1,0 +1,53 @@
+# Object files and compiled binaries
+*.o
+*.out
+*.exe
+*.elf
+*.a
+*.so
+
+# Build artifacts
+/src/serve_stuff
+/src/sandbox/*.out
+
+# Debugging files
+*.dSYM/
+*.gcda
+*.gcno
+*.gcov
+vgcore.*
+core.*
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+*.bak
+
+# Build directories
+/build/
+/bin/
+/obj/
+.lib/
+
+# IDE and editor-specific files
+.vscode/
+.idea/
+*.code-workspace
+*.sublime-workspace
+*.sublime-project
+
+# CMake and Makefile artifacts
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+Makefile.in
+Makefile.am
+
+# Autotools artifacts
+autom4te.cache/
+config.log
+config.status
+configure
